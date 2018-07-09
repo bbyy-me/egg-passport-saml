@@ -1,0 +1,16 @@
+{
+  "name": "@ustack/egg-passport-saml",
+  "version": "0.0.2",
+  "description": "",
+  "eggPlugin": {
+    "name": "passportSaml",
+    "dependencies": [
+      "passport",
+      "sequelize"
+    ]
+  },
+  "dependencies": {
+    "passport-saml": "^0.33.0",
+    "xml2js": "^0.4.19"
+  }
+}

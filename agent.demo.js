@@ -3,14 +3,14 @@
 const { promisify } = require('util');
 const exec = promisify(require('child_process').exec);
 
-module.exports = async (agent) => {
+module.exports = async agent => {
   if (agent.model) {
     await agent.model.sync();
     const find = await agent.model.Setting.findOne({
       where: {
         app: 'global',
-        name: 'saml_cert'
-      }
+        name: 'saml_cert',
+      },
     });
     if (find === null) {
       const output = await exec('openssl req -x509 -new -newkey rsa:2048 -nodes -subj \'/C=CN/ST=Beijing/L=Haidian/O=TFCloud/CN=UDS\' -days 7300 -pubkey');
@@ -24,7 +24,7 @@ module.exports = async (agent) => {
           cert,
           key,
           pubkey,
-        })
+        }),
       });
     }
   }

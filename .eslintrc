@@ -1,0 +1,9 @@
+{
+  "extends": ["eslint-config-egg"],
+  "rules": {
+    "arrow-parens": "off"    
+  },
+  "parserOptions": {
+    "ecmaVersion": 8
+  }
+}

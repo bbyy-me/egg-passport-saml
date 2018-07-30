@@ -26,13 +26,12 @@ exports.passportSaml = {
 
 see [config/config.default.js](config/config.default.js) for more detail.
 
-## Example
+如果挂载路由，插件提供的controller中需要用到ctx.model.Session。需要提前配置好这个
 
-<!-- example here -->
-
-## Questions & Suggestions
-
-Please open an issue [here](https://github.com/unitedstack/egg-passport-saml/issues).
+创建
+查询
+删除
+修改
 
 ## License
 

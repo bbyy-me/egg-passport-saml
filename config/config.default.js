@@ -7,8 +7,6 @@ exports.passportSaml = {
   issuer: 'https://sp_example.tfcloud.com',
   cert: readFileSync(join(__dirname, 'cert.pem'), 'utf8'),
   key: readFileSync(join(__dirname, 'key.pem'), 'utf8'),
-  // 插件提供的controller中需要在数据库中存储session，如需绑定路由，需要定义好session表
-  sessionModel: 'model.Session', // default app.model.Session
   mountRouter: true, // !!!此插件绑定路由的过程是异步的
   routers: [{
     controller: 'metadata',

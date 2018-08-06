@@ -1,7 +1,10 @@
 'use strict';
 
+const { xpath } = require('xml-crypto');
+const xmldom = require('xmldom');
 const Strategy = require('passport-saml').Strategy;
 const utils = require('./utils');
+const SPIDPRE = 'spid';
 
 module.exports = async app => {
   const config = app.config.passportSaml;
@@ -21,6 +24,7 @@ module.exports = async app => {
 
     cert: idpMetadata.signingKeys[0],
     signatureAlgorithm: 'sha256',
+    validateInResponseTo: true,
     privateCert: config.key,
     decryptionPvk: config.key,
   };
@@ -41,13 +45,6 @@ module.exports = async app => {
     return app.passportSaml.generateServiceProviderMetadata(config.cert);
   };
 
-  // strategy.getMetadata = () => {
-  //   const metadataParams = {};
-  //   return utils.getMetadata({
-  //     host,
-  //     cert: config.cert,
-  //   });
-  // };
   // passport.authenticate('saml')(ctx);
   // passportSaml.getMetadata
   // passportSaml.getLogoutUrl
@@ -76,20 +73,25 @@ module.exports = async app => {
         await app.passport.authenticate('saml')(ctx);
         const session = ctx.helper.getSymbolValue(ctx, 'context#_contextSession');
         if (!session) { return; }
-        ctx.user.SPClientId = session.externalKey;
-        strategy.modelSession.create({
-          SPClientId: ctx.user.SPClientId,
-          IDPClientId: ctx.user.IDPClientId,
-          userId: ctx.user.nameID,
-        });
+        const xml = new Buffer(ctx.request.body.SAMLResponse, 'base64').toString('utf8');
+        const doc = new xmldom.DOMParser({}).parseFromString(xml);
+        if (!doc.hasOwnProperty('documentElement')) {
+          throw new Error('SAMLResponse is not valid base64-encoded XML');
+        }
+        const inResponseTo = xpath(doc, "/*[local-name()='Response']/@InResponseTo");
+        if (!inResponseTo || !inResponseTo.length) { return; }
+        const spid = `${SPIDPRE}${inResponseTo[0].nodeValue}`;
+        ctx.user.spid = spid;
+        await app.sessionStore.set(spid, session.externalKey);
       },
     },
     logout: {
       method: 'get',
       path: '/passport/saml/logout',
       controller: async (ctx) => {
-        if (ctx.req.user) {
-          ctx.req.user.sessionIndex = ctx.req.user.IDPClientId;
+        if (ctx.user) {
+          const spid = ctx.user.spid;
+          ctx.req.user.sessionIndex = spid.slice(SPIDPRE.length);
           const idpLogoutUrl = await strategy.getLogoutUrl(ctx);
           await app.curl(idpLogoutUrl);
         }
@@ -103,11 +105,8 @@ module.exports = async app => {
       controller: async (ctx) => {
         strategy._saml.validatePostRequest(ctx.request.body, async function(err, res) {
           if (err) return;
-          const sessionInMongo = await strategy.modelSession.get({ IDPClientId: res.sessionIndex, userId: res.nameID });
-          if (!sessionInMongo) return;
-          const sessionInRedis = await app.sessionStore.get(sessionInMongo.sp_client_id);
-          sessionInRedis.passport = {};
-          await app.sessionStore.set(sessionInMongo.sp_client_id, sessionInRedis);
+          const sessionId = await app.sessionStore.get(`${SPIDPRE}${res.sessionIndex}`);
+          await app.sessionStore.destroy(sessionId);
         });
         ctx.body = 'OK';
       },
@@ -120,41 +119,7 @@ module.exports = async app => {
   if (!config.mountRouter || !Array.isArray(config.routers)) {
     return;
   }
-  if (!app.model.Session) {
-    console.error('需要定义session表');
-    return;
-  }
-  strategy.modelSession = {
-    async create({ SPClientId, IDPClientId, userId }) {
-      const session = await app.model.Session.findOne({
-        sp_client_id: SPClientId,
-        idp_client_id: IDPClientId,
-        user_id: userId,
-      });
-      if (!session) {
-        await app.model.Session.create({
-          sp_client_id: SPClientId,
-          idp_client_id: IDPClientId,
-          user_id: userId,
-        });
-      }
-    },
-    async get({ SPClientId, IDPClientId, userId }) {
-      const query = {};
-      if (SPClientId) query.sp_client_id = SPClientId;
-      if (IDPClientId) query.idp_client_id = IDPClientId;
-      if (userId) query.user_id = userId;
-      return app.model.Session.findOne(query);
-    },
-    async delete({ SPClientId, IDPClientId, userId }) {
-      const query = {};
-      if (SPClientId) query.sp_client_id = SPClientId;
-      if (IDPClientId) query.idp_client_id = IDPClientId;
-      if (userId) query.user_id = userId;
-      await app.model.Session.deleteMany(query);
-      // 删除Redis中的session
-    },
-  };
+
   config.routers.forEach(router => {
     if (!router) return;
 

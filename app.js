@@ -1,10 +1,7 @@
 'use strict';
 
-const { xpath } = require('xml-crypto');
-const xmldom = require('xmldom');
 const Strategy = require('passport-saml').Strategy;
 const utils = require('./utils');
-const SPIDPRE = 'spid';
 
 module.exports = async app => {
   const config = app.config.passportSaml;
@@ -45,11 +42,6 @@ module.exports = async app => {
     return app.passportSaml.generateServiceProviderMetadata(config.cert);
   };
 
-  // passport.authenticate('saml')(ctx);
-  // passportSaml.getMetadata
-  // passportSaml.getLogoutUrl
-  // passportSaml._saml.validatePostRequest
-
   const controllers = {
     metadata: {
       method: 'get',
@@ -73,15 +65,7 @@ module.exports = async app => {
         await app.passport.authenticate('saml')(ctx);
         const session = ctx.helper.getSymbolValue(ctx, 'context#_contextSession');
         if (!session) { return; }
-        const xml = new Buffer(ctx.request.body.SAMLResponse, 'base64').toString('utf8');
-        const doc = new xmldom.DOMParser({}).parseFromString(xml);
-        if (!doc.hasOwnProperty('documentElement')) {
-          throw new Error('SAMLResponse is not valid base64-encoded XML');
-        }
-        const inResponseTo = xpath(doc, "/*[local-name()='Response']/@InResponseTo");
-        if (!inResponseTo || !inResponseTo.length) { return; }
-        const spid = `${SPIDPRE}${inResponseTo[0].nodeValue}`;
-        ctx.user.spid = spid;
+        const spid = `idp_${ctx.user.IDPClientId}_${ctx.user.nameID}`;
         await app.sessionStore.set(spid, session.externalKey);
       },
     },
@@ -90,10 +74,11 @@ module.exports = async app => {
       path: '/passport/saml/logout',
       controller: async (ctx) => {
         if (ctx.user) {
-          const spid = ctx.user.spid;
-          ctx.req.user.sessionIndex = spid.slice(SPIDPRE.length);
+          ctx.req.user.sessionIndex = ctx.user.IDPClientId;
           const idpLogoutUrl = await strategy.getLogoutUrl(ctx);
           await app.curl(idpLogoutUrl);
+          const idpId = `idp_${ctx.user.IDPClientId}_${ctx.user.nameID}`;
+          await app.sessionStore.destroy(idpId);
         }
         ctx.logout();
         ctx.redirect('/');
@@ -105,8 +90,18 @@ module.exports = async app => {
       controller: async (ctx) => {
         strategy._saml.validatePostRequest(ctx.request.body, async function(err, res) {
           if (err) return;
-          const sessionId = await app.sessionStore.get(`${SPIDPRE}${res.sessionIndex}`);
-          await app.sessionStore.destroy(sessionId);
+          const idpId = `idp_${res.sessionIndex}_${res.nameID}`;
+          const sessionId = await app.sessionStore.get(idpId);
+          const session = await app.sessionStore.get(sessionId);
+          if (session && session.passport && session.passport.user) {
+            if (session._expire) {
+              session._expire - new Date().getTime();
+            }
+            session.passport.user = null;
+            await app.sessionStore.set(sessionId, session, session._expire ? session._expire - new Date().getTime() : undefined);
+          }
+
+          await app.sessionStore.destroy(idpId);
         });
         ctx.body = 'OK';
       },

@@ -1,4 +1,12 @@
 node_modules
 package-lock.json
+
+#log
 logs
+*.log
+npm-debug.log*
+
 run
+.idea
+
+dump.rdb

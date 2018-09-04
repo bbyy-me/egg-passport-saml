@@ -1,0 +1,4 @@
+2018-09-05 11:52:12,861 INFO 1493 [egg:logger] init all loggers with options: {"dir":"/home/yjk/Desktop/egg-passport-saml/test/fixtures/apps/passport-local-test/logs/passport-local-test","encoding":"utf8","env":"unittest","level":"INFO","consoleLevel":"WARN","disableConsoleAfterReady":false,"outputJSON":false,"buffer":false,"appLogName":"passport-local-test-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{},"allowDebugAtProd":false,"type":"agent"}
+2018-09-05 11:52:12,994 INFO 1493 [egg:core] dump config after load, 6ms
+2018-09-05 11:52:13,027 INFO 1493 [egg-watcher:agent] watcher start success
+2018-09-05 11:52:13,061 INFO 1493 [egg:core] dump config after ready, 7ms

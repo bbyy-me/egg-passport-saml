@@ -1,0 +1,2 @@
+2018-09-05 11:52:13,439 INFO 1493 [Timer] /home/yjk/Desktop/egg-passport-saml/node_modules/egg-logrotator/app/schedule/clean_log.js next time will execute at 2018-09-06 00:00:00.000
+2018-09-05 11:52:13,440 INFO 1493 [Timer] /home/yjk/Desktop/egg-passport-saml/node_modules/egg-logrotator/app/schedule/rotate_by_file.js next time will execute at 2018-09-06 00:00:01.000

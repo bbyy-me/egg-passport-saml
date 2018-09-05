@@ -1,4 +1,4 @@
-# egg-passport-local
+# egg-passport-saml
 
 ## Install
 

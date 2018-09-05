@@ -13,18 +13,40 @@
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
+    "autod": "^3.0.0",
+    "autod-egg": "^1.0.0",
+    "egg-ci": "^1.8.0",
+    "webstorm-disable-index": "^1.2.0",
+    "egg-bin": "^4.8.3",
+    "egg-mock": "^3.20.0",
     "eslint": "^5.1.0",
-    "eslint-config-egg": "^7.0.0"
+    "eslint-config-egg": "^7.0.0",
+    "egg": "^2.10.0",
+    "egg-passport": "^2.0.1",
+    "egg-redis": "^2.0.0",
+    "egg-session-redis": "^2.0.1",
+    "egg-scripts": "^2.9.1"
   },
   "scripts": {
+    "test": "npm run lint -- --fix && egg-bin pkgfiles && npm run test-local",
+    "test-local": "egg-bin test",
+    "lint": "eslint .",
+    "ci": "egg-bin pkgfiles --check && npm run lint && npm run cov",
+    "pkgfiles": "egg-bin pkgfiles",
+    "autod": "autod",
     "eslint": "eslint *.js . --ext .js --cache --fix",
     "prePublish": "npm run eslint",
-    "test": "egg-bin test",
     "cov": "egg-bin cov"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:unitedstack/egg-passport-saml.git"
   },
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "files": [
+    "config",
+    "agent.demo.js",
+    "app.js",
+    "utils.js"
+  ]
 }

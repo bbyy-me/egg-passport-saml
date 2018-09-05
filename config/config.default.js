@@ -8,6 +8,7 @@ exports.passportSaml = {
   cert: readFileSync(join(__dirname, 'cert.pem'), 'utf8'),
   key: readFileSync(join(__dirname, 'key.pem'), 'utf8'),
   mountRouter: true, // !!!此插件绑定路由的过程是异步的
+  cacheProvider: null,
   routers: [{
     controller: 'metadata',
     enable: true, // 如果enable指明为false，则不绑定

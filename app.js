@@ -9,6 +9,66 @@ module.exports = async app => {
   const res = await app.curl(config.idpMetadataUrl);
   const idpMetadata = await utils.parserMetadata(res.data.toString());
 
+  const cacheProvider = {
+    async save(key, value, callback) {
+      const cacheKey = `${app.name}_saml_${key}`;
+      if (!app.sessionStore) {
+        console.log('Warning: we suggest you to deploy sessionStore with plugin such as egg-session-redis');
+      }
+      if (!await app.sessionStore.get(cacheKey)) {
+        try {
+          await app.sessionStore.set(cacheKey, value);
+        } catch (err) {
+          callback(err);
+        }
+        callback(null, value);
+      } else {
+        callback(null, null);
+      }
+    },
+    async get(key, callback) {
+      if (!app.sessionStore) {
+        console.log('Warning: we suggest you to deploy sessionStore with plugin such as egg-session-redis');
+      }
+      // invokes 'callback' and passes the value if found, null otherwise
+      let cacheValue;
+      const cacheKey = `${app.name}_saml_${key}`;
+      try {
+        cacheValue = await app.sessionStore.get(cacheKey);
+        // console.log('get cacheValue:',cacheKey,cacheValue)
+      } catch (err) {
+        callback(err);
+      }
+      if (!cacheValue) {
+        callback(null, null);
+      } else {
+        callback(null, cacheValue);
+      }
+    },
+    async remove(key, callback) {
+      // removes the key from the cache, invokes `callback` with the
+      // key removed, null if no key is removed
+      let cacheValue;
+      const cacheKey = `${app.name}_saml_${key}`;
+      try {
+        cacheValue = await app.sessionStore.get(cacheKey);
+        // console.log('destroy cacheValue:',cacheKey,cacheValue)
+      } catch (err) {
+        callback(err);
+      }
+      if (!cacheValue) {
+        callback(null, null);
+      } else {
+        try {
+          await app.sessionStore.destroy(cacheKey);
+        } catch (err) {
+          callback(err);
+        }
+        callback(null, key);
+      }
+    },
+  };
+
   const configForStrategy = {
     passReqToCallback: true,
     entryPoint: idpMetadata.sso.redirectUrl,
@@ -22,6 +82,7 @@ module.exports = async app => {
     cert: idpMetadata.signingKeys[0],
     signatureAlgorithm: 'sha256',
     validateInResponseTo: true,
+    cacheProvider: config.cacheProvider || cacheProvider,
     privateCert: config.key,
     decryptionPvk: config.key,
   };

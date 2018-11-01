@@ -102,7 +102,7 @@ module.exports = function(app) {
       },
     },
   };
-  const { routersNOTMount = [] } = app.config;
+  const { routersNOTMount = [] } = app.config.passportSaml;
   routers.forEach(router => {
     if (!router) return;
 

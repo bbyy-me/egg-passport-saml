@@ -25,13 +25,7 @@ exports.passportSaml = {
 ```
 
 see [config/config.default.js](config/config.default.js) for more detail.
-
-如果挂载路由，插件提供的controller中需要用到ctx.model.Session。需要提前配置好这个
-
-创建
-查询
-删除
-修改
+依赖egg的sessionStore保存需要的缓存。
 
 ## License
 

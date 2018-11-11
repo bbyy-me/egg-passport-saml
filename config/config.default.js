@@ -4,6 +4,7 @@ exports.passportSaml = {
   idpMetadataPath: '/sso/saml2.0/metadata',
   idpConfigPath: '/public/config',
 
+  enable: true,
   idpHost: 'http://id.ustack.top',
   issuer: 'http://uos.ustack.top',
   cert: '',

@@ -7,6 +7,7 @@ const routersCreater = require('./routers');
 
 module.exports = async app => {
   const config = app.config.passportSaml;
+  if (!config.enable) return;
 
   const res = await app.curl(url.resolve(config.idpHost, config.idpMetadataPath));
   const idpMetadata = await utils.parserMetadata(res.data.toString());

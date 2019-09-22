@@ -9,7 +9,7 @@ module.exports = async app => {
   const config = app.config.passportSaml;
   if (!config.enable) return;
 
-  const res = await app.curl(url.resolve(config.idpHost, config.idpMetadataPath));
+  const res = await app.curl(idpMetadataUrl);
   const idpMetadata = await utils.parserMetadata(res.data.toString());
 
   if (!app.sessionStore) {
@@ -19,6 +19,9 @@ module.exports = async app => {
   const cacheProvider = {
     async save(key, value, callback) {
       const cacheKey = `${app.name}_saml_${key}`;
+      if (!app.sessionStore) {
+        console.log('Warning: we suggest you to deploy sessionStore with plugin such as egg-session-redis');
+      }
       if (!await app.sessionStore.get(cacheKey)) {
         try {
           await app.sessionStore.set(cacheKey, value);
@@ -31,6 +34,9 @@ module.exports = async app => {
       }
     },
     async get(key, callback) {
+      if (!app.sessionStore) {
+        console.log('Warning: we suggest you to deploy sessionStore with plugin such as egg-session-redis');
+      }
       // invokes 'callback' and passes the value if found, null otherwise
       let cacheValue;
       const cacheKey = `${app.name}_saml_${key}`;

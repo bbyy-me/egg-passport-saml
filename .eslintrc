@@ -1,7 +1,7 @@
 {
   "extends": ["eslint-config-egg"],
   "rules": {
-    "arrow-parens": "off"    
+    "arrow-parens": "off"
   },
   "parserOptions": {
     "ecmaVersion": 8

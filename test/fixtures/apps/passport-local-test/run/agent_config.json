@@ -1,0 +1,480 @@
+{
+  "config": {
+    "session": {
+      "maxAge": 86400000,
+      "key": "EGG_SESS",
+      "httpOnly": true,
+      "encrypt": true
+    },
+    "security": {
+      "domainWhiteList": [],
+      "protocolWhiteList": [],
+      "defaultMiddleware": "csrf,hsts,methodnoallow,noopen,nosniff,csp,xssProtection,xframe,dta",
+      "csrf": false,
+      "xframe": {
+        "enable": true,
+        "value": "SAMEORIGIN"
+      },
+      "hsts": {
+        "enable": false,
+        "maxAge": 31536000,
+        "includeSubdomains": false
+      },
+      "dta": {
+        "enable": true
+      },
+      "methodnoallow": {
+        "enable": true
+      },
+      "noopen": {
+        "enable": true
+      },
+      "nosniff": {
+        "enable": true
+      },
+      "referrerPolicy": {
+        "enable": false,
+        "value": "no-referrer-when-downgrade"
+      },
+      "xssProtection": {
+        "enable": true,
+        "value": "1; mode=block"
+      },
+      "csp": {
+        "enable": false,
+        "policy": {}
+      },
+      "ssrf": {
+        "ipBlackList": null,
+        "checkAddress": null
+      },
+      "_protocolWhiteListSet": "<Set>"
+    },
+    "helper": {
+      "shtml": {}
+    },
+    "jsonp": {
+      "limit": 50,
+      "callback": [
+        "_callback",
+        "callback"
+      ],
+      "csrf": false
+    },
+    "onerror": {
+      "errorPageUrl": "",
+      "appErrorFilter": null,
+      "templatePath": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-onerror/lib/onerror_page.mustache"
+    },
+    "i18n": {
+      "defaultLocale": "en_US",
+      "dirs": [],
+      "queryField": "locale",
+      "cookieField": "locale",
+      "cookieMaxAge": "1y"
+    },
+    "watcher": {
+      "type": "development",
+      "eventSources": {
+        "default": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-watcher/lib/event-sources/default",
+        "development": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-watcher/lib/event-sources/development"
+      }
+    },
+    "multipart": {
+      "autoFields": false,
+      "defaultCharset": "utf8",
+      "fieldNameSize": 100,
+      "fieldSize": "100kb",
+      "fields": 10,
+      "fileSize": "10mb",
+      "files": 10,
+      "fileExtensions": [],
+      "whitelist": null
+    },
+    "customLogger": {
+      "scheduleLogger": {
+        "consoleLevel": "NONE",
+        "file": "/home/yjk/Desktop/egg-passport-saml/test/fixtures/apps/passport-local-test/logs/passport-local-test/egg-schedule.log"
+      }
+    },
+    "logrotator": {
+      "filesRotateByHour": null,
+      "hourDelimiter": "-",
+      "filesRotateBySize": null,
+      "maxFileSize": 52428800,
+      "maxFiles": 10,
+      "rotateDuration": 60000,
+      "maxDays": 31
+    },
+    "static": {
+      "prefix": "/public/",
+      "dir": "/home/yjk/Desktop/egg-passport-saml/test/fixtures/apps/passport-local-test/app/public",
+      "dynamic": true,
+      "preload": false,
+      "buffer": false,
+      "maxFiles": 1000
+    },
+    "view": {
+      "root": "/home/yjk/Desktop/egg-passport-saml/test/fixtures/apps/passport-local-test/app/view",
+      "cache": true,
+      "defaultExtension": ".html",
+      "defaultViewEngine": "",
+      "mapping": {}
+    },
+    "redis": {
+      "default": {},
+      "app": true,
+      "agent": false,
+      "client": {
+        "port": 6379,
+        "host": "127.0.0.1",
+        "password": "<String len: 0>",
+        "db": 0
+      }
+    },
+    "passportSaml": {
+      "idpMetadataUrl": "http://127.0.0.1:5700/sso/saml2.0/metadata",
+      "issuer": "http://localhost:3001",
+      "cert": "-----BEGIN CERTIFICATE-----\nMIIDHjCCAgYCCQCBOaveXExFXTANBgkqhkiG9w0BAQsFADBRMQswCQYDVQQGEwJD\nTjEQMA4GA1UECAwHQmVpamluZzEQMA4GA1UEBwwHSGFpZGlhbjEQMA4GA1UECgwH\nVEZDbG91ZDEMMAoGA1UEAwwDVURTMB4XDTE4MDcwOTA2MjQxNloXDTM4MDcwNDA2\nMjQxNlowUTELMAkGA1UEBhMCQ04xEDAOBgNVBAgMB0JlaWppbmcxEDAOBgNVBAcM\nB0hhaWRpYW4xEDAOBgNVBAoMB1RGQ2xvdWQxDDAKBgNVBAMMA1VEUzCCASIwDQYJ\nKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL5vsTHAt+rVQ+mXKIrvLc/Y+G6xtDz0\nGWPpvuj7QZcPrVUPW+CiCQMVfoVr186qhqvuw0A1o1opWrGI28nAhAetbwtXPlRd\nHUhTzlrsp4vRc9s6tWOeUxhA6qwVQQzfJurb6KzhRrF/0AJlHIx/VKd7N3JqaifK\n/dYKo68hQT2WEbAKjuQu5zjOe/+jnFJHQ4Sgaj+Y6BL8G/6QW1UaqjxLnS4vm8i7\nvSy2twKz/iwWB1k2VxrCyhpiwyowgW5ReutcKAN5E1MCVIJOt3ZzZqtBjtN1PR+0\nbVC2BwzRUyFUj4290BXL4W4EQm6NJ8uw9bBgKWQH7s5DX6ZLJjPXecECAwEAATAN\nBgkqhkiG9w0BAQsFAAOCAQEAj55rad/H6xV+GlWZtGiSxtfm9kj80SQI2iK+lpBL\nOwUdj1Y0qt3vCrFE1iay/9tXbnwFK+2ZYSDKwIUOPHSjV0B8+ZU3BJV2+T7KUMsn\nIDk14s5uBb5Sq2liCRsi58hpSpfIRvsVyTwyfDFuxdKlyFD1Jjv4HPcf+X1YzWGx\nlVfLdc++AnK3P24OAU4t8VKz2v2KlRhmiS1pTpQDr4dZItuj7sViRPGXpPMf46UD\n6+Yk4CfXq4TJbNoUrHu9oB9W4E1H9oR1E1WUdM9MXHLGgUvyXCR1N2y1Y/QnRN7j\naHaDXbQf/LzqfC86UUVqrK6HhdKYd2U1gcMYJzCL/16bYg==\n-----END CERTIFICATE-----\n",
+      "key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC+b7ExwLfq1UPp\nlyiK7y3P2PhusbQ89Blj6b7o+0GXD61VD1vgogkDFX6Fa9fOqoar7sNANaNaKVqx\niNvJwIQHrW8LVz5UXR1IU85a7KeL0XPbOrVjnlMYQOqsFUEM3ybq2+is4Uaxf9AC\nZRyMf1Snezdyamonyv3WCqOvIUE9lhGwCo7kLuc4znv/o5xSR0OEoGo/mOgS/Bv+\nkFtVGqo8S50uL5vIu70strcCs/4sFgdZNlcawsoaYsMqMIFuUXrrXCgDeRNTAlSC\nTrd2c2arQY7TdT0ftG1QtgcM0VMhVI+NvdAVy+FuBEJujSfLsPWwYClkB+7OQ1+m\nSyYz13nBAgMBAAECggEAFm4DWc/QGbmquQ2TueF37N4qTKdjijZZ8zmpwbkuPYOc\nL8OSV7/d/d3/O+m6zl2pZQDHQH3Q0qLCStzKvlWNd3YG+Tf6YGdjNoygZncvOLmf\nwreEe8o/EUE8Iq6SLdjutYTXP918vRVHw7BzD11D9EIAAtrjy/INubMhGlR5Ya5i\nOAI/WDh8Jk3PBrL+wRKjaqoqy//RrQFXfmSNU3CtYjp2LKom1PlSGJxArHOLB4Cp\nCZL1TFooP6FnR5apx090XIEX8a4e1TSs89zyFHQT4hWOGOaj3BuxhVshdInQZVSr\nQBVoPsSVq5eBw+MuoEGfuXISmMJb9V4S5+dVAPvNUQKBgQDjZ2gXbSCVi9SKMK9L\nB8qSSIjTIdG6QjKbHhB93taymxJJKuZ0KCoQidpNgIdjD4KKCkpnCe6GkqoueZ16\nbxdI7wJG58FTXLFmOsUF2/H+OdoQgVWlwYZlLIzlXByVt7qkOMAWX7MF0CDnv6ud\nhhK+6clSHyAMkpc9Y5BbZDJKDQKBgQDWYjj1FAf45nPZDPBbGwPbNiLiXKvlH7gT\nRpRezi+CqQXXxdqACm0oT3kKZr1a1iTmVXSMXJiMCSReqhNuAhJgBR/s46q7cOB2\nmkEp+py5hp2DWMPddCZZjzqEKvnkE/efweIFljszw2RJn4+BmfK4BGHXikFOQqLO\nMDc65efFhQKBgQCac0Ffp97Zs39H3IkyjLgpYtqLjAzGVO/KK0FIPHHWHTzuNRUR\nD7aCRR7gRMuvnHktCJBAK562CCdOKYur/If0IWGKhx3nYK2coY3vzNMvuFtDmpRx\nYF/Hl9qabVV82q0JnQHaMGWHLTUsMiJ9evKAeIkkHb/GykmuiFEjwYnmgQKBgEmM\noSXTnXiS96O7gKqA9i26wPUP/hk5bJmQWU69Rid5fXutcW0EJrbxrQEYhlYnqbks\nEDQngF5qtIOVrdzL8SnoGC/ZW7W64AdQnJKeXC56NIffaDMNqiqHrPezFtBc2VOB\n3N010VHM8xcfGsjH3DGtrzOXRxhmXByJBim6vm1RAoGBAMRvY/HvMgIu6Np3MuZk\n0RcEDTB28DlwCZ1fXWyh7SM+HSy6ku2eLVMiwp9Qe2z6qdxzGTGU5HSB3gczs2O+\nLfZJhU4k+8G44to6BiCqISHkBWxhsE11gcXZ5u6plexIA3apYoixUlCGyV3BEvAo\n/fRLDGomt3y9v9LhCkIiMkrF\n-----END PRIVATE KEY-----\n",
+      "mountRouter": true,
+      "cacheProvider": null,
+      "routers": [
+        {
+          "controller": "metadata",
+          "enable": true,
+          "comment": "本服务展示信息的路径，用于在Identity Provider中注册服务",
+          "path": "/passport/saml/metadata",
+          "method": "get",
+          "default": "GET /passport/saml/metadata"
+        },
+        {
+          "controller": "sso",
+          "comment": "用户从首页跳转到此路径时，系统向Identity Provider去验证",
+          "method": "get",
+          "path": "/passport/saml",
+          "default": "GET /passport/saml"
+        },
+        {
+          "controller": "ssoCallback",
+          "comment": "Identity Provider验证成功后的回调路径",
+          "method": "post",
+          "path": "/passport/saml",
+          "default": "POST /passport/saml"
+        },
+        {
+          "controller": "logout",
+          "comment": "用户or前端访问此路径时，退出登录",
+          "path": "/passport/saml/logout",
+          "method": "get",
+          "default": "GET /passport/saml/logout"
+        },
+        {
+          "controller": "slo",
+          "comment": "Identity Provider向本服务发出登出消息时访问的路径",
+          "path": "/passport/saml/logout",
+          "method": "post",
+          "default": "POST /passport/saml/metadata"
+        }
+      ]
+    },
+    "sessionRedis": {
+      "name": ""
+    },
+    "env": "unittest",
+    "name": "passport-local-test",
+    "keys": "<String len: 6>",
+    "proxy": false,
+    "protocolHeaders": "x-forwarded-proto",
+    "ipHeaders": "x-forwarded-for",
+    "hostHeaders": "",
+    "pkg": {
+      "name": "passport-local-test",
+      "version": "0.0.1"
+    },
+    "baseDir": "/home/yjk/Desktop/egg-passport-saml/test/fixtures/apps/passport-local-test",
+    "HOME": "/home/yjk",
+    "rundir": "/home/yjk/Desktop/egg-passport-saml/test/fixtures/apps/passport-local-test/run",
+    "dump": {
+      "ignore": "<Set>"
+    },
+    "confusedConfigurations": {
+      "bodyparser": "bodyParser",
+      "notFound": "notfound",
+      "sitefile": "siteFile",
+      "middlewares": "middleware",
+      "httpClient": "httpclient"
+    },
+    "notfound": {
+      "pageUrl": ""
+    },
+    "siteFile": {
+      "/favicon.ico": "<Buffer len: 6463>"
+    },
+    "bodyParser": {
+      "enable": true,
+      "encoding": "utf8",
+      "formLimit": "100kb",
+      "jsonLimit": "100kb",
+      "strict": true,
+      "queryString": {
+        "arrayLimit": 100,
+        "depth": 5,
+        "parameterLimit": 1000
+      }
+    },
+    "logger": {
+      "dir": "/home/yjk/Desktop/egg-passport-saml/test/fixtures/apps/passport-local-test/logs/passport-local-test",
+      "encoding": "utf8",
+      "env": "unittest",
+      "level": "INFO",
+      "consoleLevel": "WARN",
+      "disableConsoleAfterReady": false,
+      "outputJSON": false,
+      "buffer": false,
+      "appLogName": "passport-local-test-web.log",
+      "coreLogName": "egg-web.log",
+      "agentLogName": "egg-agent.log",
+      "errorLogName": "common-error.log",
+      "coreLogger": {},
+      "allowDebugAtProd": false,
+      "type": "agent"
+    },
+    "httpclient": {
+      "enableDNSCache": false,
+      "dnsCacheMaxLength": 1000,
+      "dnsCacheMaxAge": 10000,
+      "request": {
+        "timeout": 5000
+      },
+      "httpAgent": {
+        "keepAlive": true,
+        "freeSocketKeepAliveTimeout": 4000,
+        "maxSockets": 9007199254740991,
+        "maxFreeSockets": 256
+      },
+      "httpsAgent": {
+        "keepAlive": true,
+        "freeSocketKeepAliveTimeout": 4000,
+        "maxSockets": 9007199254740991,
+        "maxFreeSockets": 256
+      }
+    },
+    "meta": {
+      "enable": true,
+      "logging": false
+    },
+    "coreMiddleware": [
+      "meta",
+      "siteFile",
+      "notfound",
+      "bodyParser",
+      "overrideMethod"
+    ],
+    "workerStartTimeout": 600000,
+    "cluster": {
+      "listen": {
+        "path": "",
+        "port": 3001,
+        "hostname": ""
+      }
+    },
+    "clusterClient": {
+      "maxWaitTime": 60000,
+      "responseTimeout": 60000
+    },
+    "onClientError": null,
+    "coreMiddlewares": "~config~coreMiddleware",
+    "appMiddlewares": [],
+    "appMiddleware": "~config~appMiddlewares"
+  },
+  "plugins": {
+    "session": {
+      "enable": true,
+      "package": "egg-session",
+      "name": "session",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg/config/plugin.js",
+      "path": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-session",
+      "version": "3.1.0"
+    },
+    "security": {
+      "enable": true,
+      "package": "egg-security",
+      "name": "security",
+      "dependencies": [],
+      "optionalDependencies": [
+        "session"
+      ],
+      "env": [],
+      "from": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg/config/plugin.js",
+      "path": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-security",
+      "version": "2.4.0"
+    },
+    "jsonp": {
+      "enable": true,
+      "package": "egg-jsonp",
+      "name": "jsonp",
+      "dependencies": [],
+      "optionalDependencies": [
+        "security"
+      ],
+      "env": [],
+      "from": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg/config/plugin.js",
+      "path": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-jsonp",
+      "version": "2.0.0"
+    },
+    "onerror": {
+      "enable": true,
+      "package": "egg-onerror",
+      "name": "onerror",
+      "dependencies": [],
+      "optionalDependencies": [
+        "jsonp"
+      ],
+      "env": [],
+      "from": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg/config/plugin.js",
+      "path": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-onerror",
+      "version": "2.1.0"
+    },
+    "i18n": {
+      "enable": true,
+      "package": "egg-i18n",
+      "name": "i18n",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg/config/plugin.js",
+      "path": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-i18n",
+      "version": "2.0.0"
+    },
+    "watcher": {
+      "enable": true,
+      "package": "egg-watcher",
+      "name": "watcher",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg/config/plugin.js",
+      "path": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-watcher",
+      "version": "3.0.0"
+    },
+    "multipart": {
+      "enable": true,
+      "package": "egg-multipart",
+      "name": "multipart",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg/config/plugin.js",
+      "path": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-multipart",
+      "version": "2.1.0"
+    },
+    "schedule": {
+      "enable": true,
+      "package": "egg-schedule",
+      "name": "schedule",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg/config/plugin.js",
+      "path": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-schedule",
+      "version": "3.4.0"
+    },
+    "logrotator": {
+      "enable": true,
+      "package": "egg-logrotator",
+      "name": "logrotator",
+      "dependencies": [
+        "schedule"
+      ],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg/config/plugin.js",
+      "path": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-logrotator",
+      "version": "3.0.3"
+    },
+    "static": {
+      "enable": true,
+      "package": "egg-static",
+      "name": "static",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg/config/plugin.js",
+      "path": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-static",
+      "version": "2.1.1"
+    },
+    "view": {
+      "enable": true,
+      "package": "egg-view",
+      "name": "view",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg/config/plugin.js",
+      "path": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-view",
+      "version": "2.1.0"
+    },
+    "redis": {
+      "enable": true,
+      "package": "egg-redis",
+      "name": "redis",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "/home/yjk/Desktop/egg-passport-saml/test/fixtures/apps/passport-local-test/config/plugin.js",
+      "path": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-redis",
+      "version": "2.0.0"
+    },
+    "passport": {
+      "enable": true,
+      "package": "egg-passport",
+      "name": "passport",
+      "dependencies": [
+        "session"
+      ],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "/home/yjk/Desktop/egg-passport-saml/test/fixtures/apps/passport-local-test/config/plugin.js",
+      "path": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-passport",
+      "version": "2.0.1"
+    },
+    "passportSaml": {
+      "enable": true,
+      "name": "passportSaml",
+      "dependencies": [
+        "passport"
+      ],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "/home/yjk/Desktop/egg-passport-saml/test/fixtures/apps/passport-local-test/config/plugin.js",
+      "path": "/home/yjk/Desktop/egg-passport-saml",
+      "version": "0.3.0"
+    },
+    "sessionRedis": {
+      "enable": true,
+      "package": "egg-session-redis",
+      "name": "sessionRedis",
+      "dependencies": [
+        "redis"
+      ],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "/home/yjk/Desktop/egg-passport-saml/test/fixtures/apps/passport-local-test/config/plugin.js",
+      "path": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-session-redis",
+      "version": "2.0.1"
+    },
+    "egg-mock": {
+      "enable": true,
+      "path": "/home/yjk/Desktop/egg-passport-saml/node_modules/egg-mock",
+      "name": "egg-mock",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "version": "3.20.0"
+    }
+  }
+}

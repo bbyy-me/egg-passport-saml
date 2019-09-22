@@ -3,7 +3,7 @@
 ## Install
 
 ```bash
-npm i @ustack/egg-passport-saml --save
+npm i @bbyy/egg-passport-saml --save
 ```
 
 ## Usage
@@ -12,7 +12,7 @@ npm i @ustack/egg-passport-saml --save
 // {app_root}/config/plugin.js
 exports.passportSaml = {
   enable: true,
-  package: '@ustack/egg-passport-saml',
+  package: '@bbyy/egg-passport-saml',
 };
 ```
 

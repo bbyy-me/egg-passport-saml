@@ -1,6 +1,5 @@
 'use strict';
 
-const url = require('url');
 const Strategy = require('passport-saml').Strategy;
 const utils = require('./utils');
 const routersCreater = require('./routers');
@@ -8,6 +7,8 @@ const routersCreater = require('./routers');
 module.exports = async app => {
   const config = app.config.passportSaml;
   if (!config.enable) return;
+
+  const { idpMetadataUrl } = config;
 
   const res = await app.curl(idpMetadataUrl);
   const idpMetadata = await utils.parserMetadata(res.data.toString());

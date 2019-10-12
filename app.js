@@ -93,6 +93,8 @@ module.exports = async app => {
     cacheProvider: config.cacheProvider || cacheProvider,
     privateCert: config.key,
     decryptionPvk: config.key,
+
+    acceptedClockSkewMs: config.acceptedClockSkewMs,
   };
 
   const strategy = new Strategy(configForStrategy, (req, user, done) => {
